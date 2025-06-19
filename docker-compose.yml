@@ -1,0 +1,30 @@
+services:
+  cisdi_svc:
+    container_name: cisdi-svc
+    build: ./
+    ports:
+      - "9000:9000"
+    networks:
+      - cisdi-svc-net
+    depends_on:
+      - postgres_svc
+  postgres_svc:
+    container_name: postgres-svc
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - cisdi-svc-net
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:  
+  pgdata: {}
+
+networks:
+  cisdi-svc-net:
+    driver: bridge

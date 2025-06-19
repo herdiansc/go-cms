@@ -1,0 +1,555 @@
+basePath: /
+definitions:
+  models.CreateArticleRequest:
+    properties:
+      content:
+        type: string
+      status:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      title:
+        type: string
+    required:
+    - content
+    - title
+    type: object
+  models.CreateTagRequest:
+    properties:
+      title:
+        type: string
+    required:
+    - title
+    type: object
+  models.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  models.PatchArticleRequest:
+    properties:
+      status:
+        type: string
+    type: object
+  models.RegisterRequest:
+    properties:
+      password:
+        type: string
+      role:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  models.Response:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+info:
+  contact:
+    email: herdiansc@gmail.com
+  description: A cms service built uisng golang
+  license:
+    name: MIT
+  title: Article CMS Service
+  version: "1.0"
+paths:
+  /article-histories/{uuid}:
+    get:
+      consumes:
+      - application/json
+      description: details an article history from the database
+      parameters:
+      - description: With the bearer started
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: UUID
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: details an article history
+      tags:
+      - article history
+  /articles:
+    get:
+      consumes:
+      - application/json
+      description: lists articles from the database
+      parameters:
+      - description: With the bearer started
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1
+        description: page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: limit per page
+        in: query
+        name: limit
+        type: integer
+      - default: id
+        description: order field
+        in: query
+        name: orderField
+        type: string
+      - default: desc
+        description: order dir
+        in: query
+        name: orderDir
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: lists articles
+      tags:
+      - article
+    post:
+      consumes:
+      - application/json
+      description: creates new article and saves it to the database
+      parameters:
+      - description: Request of Creating Article Object
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateArticleRequest'
+      - description: With the bearer started
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: creates new article
+      tags:
+      - article
+  /articles/{uuid}:
+    delete:
+      consumes:
+      - application/json
+      description: deletes an article from the database
+      parameters:
+      - description: With the bearer started
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: UUID
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: deletes an article
+      tags:
+      - article
+    get:
+      consumes:
+      - application/json
+      description: details an article from the database
+      parameters:
+      - description: With the bearer started
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: UUID
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: details an article
+      tags:
+      - article
+    patch:
+      consumes:
+      - application/json
+      description: patches an article from the database, example to update article
+        status
+      parameters:
+      - description: With the bearer started
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request of Creating Article Object
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.PatchArticleRequest'
+      - description: UUID
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: patches an article
+      tags:
+      - article
+  /articles/{uuid}/histories:
+    get:
+      consumes:
+      - application/json
+      description: lists articles histories for an article from the database
+      parameters:
+      - description: With the bearer started
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: UUID
+        in: path
+        name: uuid
+        required: true
+        type: string
+      - default: 1
+        description: page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: limit per page
+        in: query
+        name: limit
+        type: integer
+      - default: id
+        description: order field
+        in: query
+        name: orderField
+        type: string
+      - default: desc
+        description: order dir
+        in: query
+        name: orderDir
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: lists articles histories for an article
+      tags:
+      - article
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Add a new auth to database
+      parameters:
+      - description: Request of Creating Order Object
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Add a new auth to database
+      tags:
+      - auth
+      x-order: 2
+  /auth/profile:
+    get:
+      consumes:
+      - application/json
+      description: Get profile of currently logged in user
+      parameters:
+      - description: With the bearer started
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get profile of currently logged in user
+      tags:
+      - auth
+      x-order: 3
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Add a new auth to database
+      parameters:
+      - description: Request of Creating Order Object
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Add a new auth to database
+      tags:
+      - auth
+      x-order: 1
+  /tags:
+    get:
+      consumes:
+      - application/json
+      description: lists tags from the database
+      parameters:
+      - description: With the bearer started
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1
+        description: page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: limit per page
+        in: query
+        name: limit
+        type: integer
+      - default: id
+        description: order field
+        in: query
+        name: orderField
+        type: string
+      - default: desc
+        description: order dir
+        in: query
+        name: orderDir
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: lists tags
+      tags:
+      - tag
+    post:
+      consumes:
+      - application/json
+      description: creates new tag and saves it to the database
+      parameters:
+      - description: Request of Creating Tag Object
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateTagRequest'
+      - description: With the bearer started
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: creates new tag
+      tags:
+      - tag
+  /tags/{uuid}:
+    get:
+      consumes:
+      - application/json
+      description: details a tag from the database
+      parameters:
+      - description: With the bearer started
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: UUID
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: details a tag
+      tags:
+      - tag
+swagger: "2.0"
