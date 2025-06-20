@@ -1,11 +1,11 @@
 services:
-  cisdi_svc:
-    container_name: cisdi-svc
+  cms_svc:
+    container_name: cms-svc
     build: ./
     ports:
       - "9000:9000"
     networks:
-      - cisdi-svc-net
+      - cms-net
     depends_on:
       - postgres_svc
   postgres_svc:
@@ -18,7 +18,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - cisdi-svc-net
+      - cms-net
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -26,5 +26,5 @@ volumes:
   pgdata: {}
 
 networks:
-  cisdi-svc-net:
+  cms-net:
     driver: bridge

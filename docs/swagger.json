@@ -1,17 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "A cms service built uisng golang",
-        "title": "Article CMS Service",
-        "contact": {
-            "email": "herdiansc@gmail.com"
-        },
-        "license": {
-            "name": "MIT"
-        },
-        "version": "1.0"
+        "contact": {}
     },
-    "basePath": "/",
     "paths": {
         "/article-histories/{id}": {
             "get": {

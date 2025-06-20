@@ -1,4 +1,3 @@
-basePath: /
 definitions:
   models.CreateArticleRequest:
     properties:
@@ -57,13 +56,7 @@ definitions:
         type: string
     type: object
 info:
-  contact:
-    email: herdiansc@gmail.com
-  description: A cms service built uisng golang
-  license:
-    name: MIT
-  title: Article CMS Service
-  version: "1.0"
+  contact: {}
 paths:
   /article-histories/{id}:
     get:
