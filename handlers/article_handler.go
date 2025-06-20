@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/herdiansc/go-cms/models"
@@ -31,7 +32,7 @@ func NewArticleHandler(db *gorm.DB) ArticleHandler {
 //	@Accept			json
 //	@Produce		json
 //	@Param			request			body		models.CreateArticleRequest	true	"Request of Creating Article Object"
-//	@Param			Authorization	header		string						true	"With the bearer started"
+//	@Param			Authorization	header		string						true	"Basic [token]. Token obtained from log in endpoint"
 //	@Success		200				{object}	models.Response				"ok"
 //	@Failure		400				{object}	models.Response				"bad request"
 //	@Failure		500				{object}	models.Response				"internal server error"
@@ -56,7 +57,7 @@ func (h ArticleHandler) Create(w http.ResponseWriter, r *http.Request) {
 //	@Tags			article
 //	@Accept			json
 //	@Produce		json
-//	@Param			Authorization	header		string			true	"With the bearer started"
+//	@Param			Authorization	header		string			true	"Basic [token]. Token obtained from log in endpoint"
 //	@Param			page			query		int				false	"page number"		default(1)
 //	@Param			limit			query		int				false	"limit per page"	default(10)
 //	@Param			orderField		query		string			false	"order field"		default(id)
@@ -82,8 +83,8 @@ func (h ArticleHandler) List(w http.ResponseWriter, r *http.Request) {
 //	@Tags			article
 //	@Accept			json
 //	@Produce		json
-//	@Param			Authorization	header		string			true	"With the bearer started"
-//	@Param			uuid			path		string			true	"UUID"
+//	@Param			Authorization	header		string			true	"Basic [token]. Token obtained from log in endpoint"
+//	@Param			id				path		integer			true	"ID of article"
 //	@Param			page			query		int				false	"page number"		default(1)
 //	@Param			limit			query		int				false	"limit per page"	default(10)
 //	@Param			orderField		query		string			false	"order field"		default(id)
@@ -91,14 +92,15 @@ func (h ArticleHandler) List(w http.ResponseWriter, r *http.Request) {
 //	@Success		200				{object}	models.Response	"ok"
 //	@Failure		400				{object}	models.Response	"bad request"
 //	@Failure		500				{object}	models.Response	"internal server error"
-//	@Router			/articles/{uuid}/histories [get]
+//	@Router			/articles/{id}/histories [get]
 func (h ArticleHandler) ListHistories(w http.ResponseWriter, r *http.Request) {
 	ad := r.Context().Value(models.AuthVerifyCtxKey)
 	ar := respositories.NewArticleRepository(h.db)
 	ac := respositories.NewArticleHistoryRepository(h.db)
 
 	svc := services.NewListArticleHistoryServices(ad, ar, ac)
-	code, res := svc.List(r.PathValue("uuid"), r.URL.Query())
+	id, _ := strconv.Atoi(r.PathValue("id"))
+	code, res := svc.List(int64(id), r.URL.Query())
 	w.WriteHeader(code)
 	json.NewEncoder(w).Encode(res)
 }
@@ -110,18 +112,19 @@ func (h ArticleHandler) ListHistories(w http.ResponseWriter, r *http.Request) {
 //	@Tags			article
 //	@Accept			json
 //	@Produce		json
-//	@Param			Authorization	header		string			true	"With the bearer started"
-//	@Param			uuid			path		string			true	"UUID"
+//	@Param			Authorization	header		string			true	"Basic [token]. Token obtained from log in endpoint"
+//	@Param			id				path		integer			true	"ID of article"
 //	@Success		200				{object}	models.Response	"ok"
 //	@Failure		400				{object}	models.Response	"bad request"
 //	@Failure		500				{object}	models.Response	"internal server error"
-//	@Router			/articles/{uuid} [get]
+//	@Router			/articles/{id} [get]
 func (h ArticleHandler) Detail(w http.ResponseWriter, r *http.Request) {
 	ad := r.Context().Value(models.AuthVerifyCtxKey)
 	ac := respositories.NewArticleRepository(h.db)
 
 	svc := services.NewDetailArticleServices(ad, ac)
-	code, res := svc.GetDetailByUUID(r.PathValue("uuid"))
+	id, _ := strconv.Atoi(r.PathValue("id"))
+	code, res := svc.GetDetailByUUID(int64(id))
 	w.WriteHeader(code)
 	json.NewEncoder(w).Encode(res)
 }
@@ -133,18 +136,19 @@ func (h ArticleHandler) Detail(w http.ResponseWriter, r *http.Request) {
 //	@Tags			article
 //	@Accept			json
 //	@Produce		json
-//	@Param			Authorization	header		string			true	"With the bearer started"
-//	@Param			uuid			path		string			true	"UUID"
+//	@Param			Authorization	header		string			true	"Basic [token]. Token obtained from log in endpoint"
+//	@Param			id				path		integer			true	"ID of article"
 //	@Success		200				{object}	models.Response	"ok"
 //	@Failure		400				{object}	models.Response	"bad request"
 //	@Failure		500				{object}	models.Response	"internal server error"
-//	@Router			/articles/{uuid} [delete]
+//	@Router			/articles/{id} [delete]
 func (h ArticleHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	ad := r.Context().Value(models.AuthVerifyCtxKey)
 	ade := respositories.NewArticleRepository(h.db)
 
 	svc := services.NewDeleteArticleServices(ad, ade)
-	code, res := svc.Delete(r.PathValue("uuid"))
+	id, _ := strconv.Atoi(r.PathValue("id"))
+	code, res := svc.Delete(int64(id))
 	w.WriteHeader(code)
 	json.NewEncoder(w).Encode(res)
 }
@@ -156,13 +160,13 @@ func (h ArticleHandler) Delete(w http.ResponseWriter, r *http.Request) {
 //	@Tags			article
 //	@Accept			json
 //	@Produce		json
-//	@Param			Authorization	header		string						true	"With the bearer started"
+//	@Param			Authorization	header		string						true	"Basic [token]. Token obtained from log in endpoint"
 //	@Param			request			body		models.PatchArticleRequest	true	"Request of Creating Article Object"
-//	@Param			uuid			path		string						true	"UUID"
+//	@Param			id				path		integer						true	"ID of article"
 //	@Success		200				{object}	models.Response				"ok"
 //	@Failure		400				{object}	models.Response				"bad request"
 //	@Failure		500				{object}	models.Response				"internal server error"
-//	@Router			/articles/{uuid} [patch]
+//	@Router			/articles/{id} [patch]
 func (h ArticleHandler) Patch(w http.ResponseWriter, r *http.Request) {
 	ad := r.Context().Value(models.AuthVerifyCtxKey)
 	jd := json.NewDecoder(r.Body)
@@ -171,7 +175,8 @@ func (h ArticleHandler) Patch(w http.ResponseWriter, r *http.Request) {
 	hr := respositories.NewArticleHistoryRepository(h.db)
 
 	svc := services.NewPatchArticleServices(ad, jd, rv, ade, hr)
-	code, res := svc.Patch(r.PathValue("uuid"))
+	id, _ := strconv.Atoi(r.PathValue("id"))
+	code, res := svc.Patch(int64(id))
 	w.WriteHeader(code)
 	json.NewEncoder(w).Encode(res)
 }

@@ -29,7 +29,6 @@ type TagUsageQueryResult struct {
 // TagListItem struct
 type TagListItem struct {
 	ID         int64  `json:"id"`
-	UUID       string `json:"uuid"`
 	Title      string `json:"title"`
 	UsageCount int64  `json:"usageCount"`
 }

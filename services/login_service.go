@@ -71,7 +71,6 @@ func (svc LoginServices) Login() (int, models.Response) {
 
 	tokenString, err := svc.signer(jwt.SigningMethodHS256, jwt.MapClaims{
 		"id":       auth.ID,
-		"uuid":     auth.UUID,
 		"username": auth.Username,
 		"exp":      time.Now().Add(time.Hour * 24 * 30).Unix(),
 	}).SignedString(secretKey)

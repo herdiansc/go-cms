@@ -36,7 +36,6 @@ func (svc TokenVerifyServices) Verify(authHeader string) (int, models.Response) 
 	claims := token.Claims.(jwt.MapClaims)
 	responseData := models.VerifyData{
 		ID:       int64(claims["id"].(float64)),
-		UUID:     claims["uuid"].(string),
 		Username: claims["username"].(string),
 	}
 

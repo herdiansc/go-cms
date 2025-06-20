@@ -87,18 +87,18 @@ func main() {
 	articleHandlers := handlers.NewArticleHandler(DB)
 	httpServer.Handle("POST /articles", Authenticate(http.HandlerFunc(articleHandlers.Create)))
 	httpServer.Handle("GET /articles", Authenticate(http.HandlerFunc(articleHandlers.List)))
-	httpServer.Handle("GET /articles/{uuid}", Authenticate(http.HandlerFunc(articleHandlers.Detail)))
-	httpServer.Handle("GET /articles/{uuid}/histories", Authenticate(http.HandlerFunc(articleHandlers.ListHistories)))
-	httpServer.Handle("DELETE /articles/{uuid}", Authenticate(http.HandlerFunc(articleHandlers.Delete)))
-	httpServer.Handle("PATCH /articles/{uuid}", Authenticate(http.HandlerFunc(articleHandlers.Patch)))
+	httpServer.Handle("GET /articles/{id}", Authenticate(http.HandlerFunc(articleHandlers.Detail)))
+	httpServer.Handle("GET /articles/{id}/histories", Authenticate(http.HandlerFunc(articleHandlers.ListHistories)))
+	httpServer.Handle("DELETE /articles/{id}", Authenticate(http.HandlerFunc(articleHandlers.Delete)))
+	httpServer.Handle("PATCH /articles/{id}", Authenticate(http.HandlerFunc(articleHandlers.Patch)))
 
 	articleHistoryHandlers := handlers.NewArticleHistoryHandler(DB)
-	httpServer.Handle("GET /article-histories/{uuid}", Authenticate(http.HandlerFunc(articleHistoryHandlers.Detail)))
+	httpServer.Handle("GET /article-histories/{id}", Authenticate(http.HandlerFunc(articleHistoryHandlers.Detail)))
 
 	tagHandlers := handlers.NewTagHandler(DB)
 	httpServer.Handle("POST /tags", Authenticate(http.HandlerFunc(tagHandlers.Create)))
 	httpServer.Handle("GET /tags", Authenticate(http.HandlerFunc(tagHandlers.List)))
-	httpServer.Handle("GET /tags/{uuid}", Authenticate(http.HandlerFunc(tagHandlers.Detail)))
+	httpServer.Handle("GET /tags/{id}", Authenticate(http.HandlerFunc(tagHandlers.Detail)))
 
 	port := os.Getenv("SERVICE_PORT")
 	httpServer.HandleFunc("/swagger/", httpSwagger.Handler(

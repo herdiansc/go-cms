@@ -126,9 +126,9 @@ func (repo ArticleRepository) DeleteByParam(param string, value any) error {
 }
 
 // PatchByParam patches an article by a specific param
-func (repo ArticleRepository) PatchByParam(uuid string, param string, value any) (models.Article, error) {
+func (repo ArticleRepository) PatchByParam(id int64, param string, value any) (models.Article, error) {
 	var data models.Article
-	result := repo.db.Where("uuid = ?", uuid).First(&data)
+	result := repo.db.Where("id = ?", id).First(&data)
 	if result.Error != nil {
 		return models.Article{}, result.Error
 	}

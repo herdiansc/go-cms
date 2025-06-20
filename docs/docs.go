@@ -20,7 +20,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/article-histories/{uuid}": {
+        "/article-histories/{id}": {
             "get": {
                 "description": "details an article history from the database",
                 "consumes": [
@@ -36,15 +36,15 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "With the bearer started",
+                        "description": "Basic [token]. Token obtained from log in endpoint",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "UUID",
-                        "name": "uuid",
+                        "type": "integer",
+                        "description": "ID of article history",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -87,7 +87,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "With the bearer started",
+                        "description": "Basic [token]. Token obtained from log in endpoint",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
@@ -166,7 +166,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "With the bearer started",
+                        "description": "Basic [token]. Token obtained from log in endpoint",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
@@ -194,7 +194,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/articles/{uuid}": {
+        "/articles/{id}": {
             "get": {
                 "description": "details an article from the database",
                 "consumes": [
@@ -210,15 +210,15 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "With the bearer started",
+                        "description": "Basic [token]. Token obtained from log in endpoint",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "UUID",
-                        "name": "uuid",
+                        "type": "integer",
+                        "description": "ID of article",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -259,15 +259,15 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "With the bearer started",
+                        "description": "Basic [token]. Token obtained from log in endpoint",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "UUID",
-                        "name": "uuid",
+                        "type": "integer",
+                        "description": "ID of article",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -308,7 +308,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "With the bearer started",
+                        "description": "Basic [token]. Token obtained from log in endpoint",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
@@ -323,9 +323,9 @@ const docTemplate = `{
                         }
                     },
                     {
-                        "type": "string",
-                        "description": "UUID",
-                        "name": "uuid",
+                        "type": "integer",
+                        "description": "ID of article",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -352,7 +352,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/articles/{uuid}/histories": {
+        "/articles/{id}/histories": {
             "get": {
                 "description": "lists articles histories for an article from the database",
                 "consumes": [
@@ -368,15 +368,15 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "With the bearer started",
+                        "description": "Basic [token]. Token obtained from log in endpoint",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "UUID",
-                        "name": "uuid",
+                        "type": "integer",
+                        "description": "ID of article",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     },
@@ -446,7 +446,7 @@ const docTemplate = `{
                 "summary": "Add a new auth to database",
                 "parameters": [
                     {
-                        "description": "Request of Creating Order Object",
+                        "description": "Request of login",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -494,7 +494,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "With the bearer started",
+                        "description": "Basic [token]. Token obtained from log in endpoint",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
@@ -538,7 +538,7 @@ const docTemplate = `{
                 "summary": "Add a new auth to database",
                 "parameters": [
                     {
-                        "description": "Request of Creating Order Object",
+                        "description": "Request body of registration",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -586,7 +586,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "With the bearer started",
+                        "description": "Basic [token]. Token obtained from log in endpoint",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
@@ -665,7 +665,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "With the bearer started",
+                        "description": "Basic [token]. Token obtained from log in endpoint",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
@@ -693,7 +693,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/tags/{uuid}": {
+        "/tags/{id}": {
             "get": {
                 "description": "details a tag from the database",
                 "consumes": [
@@ -709,15 +709,15 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "With the bearer started",
+                        "description": "Basic [token]. Token obtained from log in endpoint",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "UUID",
-                        "name": "uuid",
+                        "type": "integer",
+                        "description": "ID of a tag",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }

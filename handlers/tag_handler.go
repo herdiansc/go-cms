@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/herdiansc/go-cms/models"
@@ -31,7 +32,7 @@ func NewTagHandler(db *gorm.DB) TagHandler {
 //	@Accept			json
 //	@Produce		json
 //	@Param			request			body		models.CreateTagRequest	true	"Request of Creating Tag Object"
-//	@Param			Authorization	header		string					true	"With the bearer started"
+//	@Param			Authorization	header		string					true	"Basic [token]. Token obtained from log in endpoint"
 //	@Success		200				{object}	models.Response			"ok"
 //	@Failure		400				{object}	models.Response			"bad request"
 //	@Failure		500				{object}	models.Response			"internal server error"
@@ -55,7 +56,7 @@ func (h TagHandler) Create(w http.ResponseWriter, r *http.Request) {
 //	@Tags			tag
 //	@Accept			json
 //	@Produce		json
-//	@Param			Authorization	header		string			true	"With the bearer started"
+//	@Param			Authorization	header		string			true	"Basic [token]. Token obtained from log in endpoint"
 //	@Param			page			query		int				false	"page number"		default(1)
 //	@Param			limit			query		int				false	"limit per page"	default(10)
 //	@Param			orderField		query		string			false	"order field"		default(id)
@@ -81,18 +82,19 @@ func (h TagHandler) List(w http.ResponseWriter, r *http.Request) {
 //	@Tags			tag
 //	@Accept			json
 //	@Produce		json
-//	@Param			Authorization	header		string			true	"With the bearer started"
-//	@Param			uuid			path		string			true	"UUID"
+//	@Param			Authorization	header		string			true	"Basic [token]. Token obtained from log in endpoint"
+//	@Param			id				path		integer			true	"ID of a tag"
 //	@Success		200				{object}	models.Response	"ok"
 //	@Failure		400				{object}	models.Response	"bad request"
 //	@Failure		500				{object}	models.Response	"internal server error"
-//	@Router			/tags/{uuid} [get]
+//	@Router			/tags/{id} [get]
 func (h TagHandler) Detail(w http.ResponseWriter, r *http.Request) {
 	ad := r.Context().Value(models.AuthVerifyCtxKey)
 	ac := respositories.NewTagRepository(h.db)
 
 	svc := services.NewDetailTagServices(ad, ac)
-	code, res := svc.GetDetailByUUID(r.PathValue("uuid"))
+	id, _ := strconv.Atoi(r.PathValue("id"))
+	code, res := svc.GetDetailByUUID(int64(id))
 	w.WriteHeader(code)
 	json.NewEncoder(w).Encode(res)
 }

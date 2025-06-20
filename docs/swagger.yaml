@@ -65,22 +65,22 @@ info:
   title: Article CMS Service
   version: "1.0"
 paths:
-  /article-histories/{uuid}:
+  /article-histories/{id}:
     get:
       consumes:
       - application/json
       description: details an article history from the database
       parameters:
-      - description: With the bearer started
+      - description: Basic [token]. Token obtained from log in endpoint
         in: header
         name: Authorization
         required: true
         type: string
-      - description: UUID
+      - description: ID of article history
         in: path
-        name: uuid
+        name: id
         required: true
-        type: string
+        type: integer
       produces:
       - application/json
       responses:
@@ -105,7 +105,7 @@ paths:
       - application/json
       description: lists articles from the database
       parameters:
-      - description: With the bearer started
+      - description: Basic [token]. Token obtained from log in endpoint
         in: header
         name: Authorization
         required: true
@@ -159,7 +159,7 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.CreateArticleRequest'
-      - description: With the bearer started
+      - description: Basic [token]. Token obtained from log in endpoint
         in: header
         name: Authorization
         required: true
@@ -182,22 +182,22 @@ paths:
       summary: creates new article
       tags:
       - article
-  /articles/{uuid}:
+  /articles/{id}:
     delete:
       consumes:
       - application/json
       description: deletes an article from the database
       parameters:
-      - description: With the bearer started
+      - description: Basic [token]. Token obtained from log in endpoint
         in: header
         name: Authorization
         required: true
         type: string
-      - description: UUID
+      - description: ID of article
         in: path
-        name: uuid
+        name: id
         required: true
-        type: string
+        type: integer
       produces:
       - application/json
       responses:
@@ -221,16 +221,16 @@ paths:
       - application/json
       description: details an article from the database
       parameters:
-      - description: With the bearer started
+      - description: Basic [token]. Token obtained from log in endpoint
         in: header
         name: Authorization
         required: true
         type: string
-      - description: UUID
+      - description: ID of article
         in: path
-        name: uuid
+        name: id
         required: true
-        type: string
+        type: integer
       produces:
       - application/json
       responses:
@@ -255,7 +255,7 @@ paths:
       description: patches an article from the database, example to update article
         status
       parameters:
-      - description: With the bearer started
+      - description: Basic [token]. Token obtained from log in endpoint
         in: header
         name: Authorization
         required: true
@@ -266,11 +266,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.PatchArticleRequest'
-      - description: UUID
+      - description: ID of article
         in: path
-        name: uuid
+        name: id
         required: true
-        type: string
+        type: integer
       produces:
       - application/json
       responses:
@@ -289,22 +289,22 @@ paths:
       summary: patches an article
       tags:
       - article
-  /articles/{uuid}/histories:
+  /articles/{id}/histories:
     get:
       consumes:
       - application/json
       description: lists articles histories for an article from the database
       parameters:
-      - description: With the bearer started
+      - description: Basic [token]. Token obtained from log in endpoint
         in: header
         name: Authorization
         required: true
         type: string
-      - description: UUID
+      - description: ID of article
         in: path
-        name: uuid
+        name: id
         required: true
-        type: string
+        type: integer
       - default: 1
         description: page number
         in: query
@@ -349,7 +349,7 @@ paths:
       - application/json
       description: Add a new auth to database
       parameters:
-      - description: Request of Creating Order Object
+      - description: Request of login
         in: body
         name: request
         required: true
@@ -380,7 +380,7 @@ paths:
       - application/json
       description: Get profile of currently logged in user
       parameters:
-      - description: With the bearer started
+      - description: Basic [token]. Token obtained from log in endpoint
         in: header
         name: Authorization
         required: true
@@ -410,7 +410,7 @@ paths:
       - application/json
       description: Add a new auth to database
       parameters:
-      - description: Request of Creating Order Object
+      - description: Request body of registration
         in: body
         name: request
         required: true
@@ -441,7 +441,7 @@ paths:
       - application/json
       description: lists tags from the database
       parameters:
-      - description: With the bearer started
+      - description: Basic [token]. Token obtained from log in endpoint
         in: header
         name: Authorization
         required: true
@@ -495,7 +495,7 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.CreateTagRequest'
-      - description: With the bearer started
+      - description: Basic [token]. Token obtained from log in endpoint
         in: header
         name: Authorization
         required: true
@@ -518,22 +518,22 @@ paths:
       summary: creates new tag
       tags:
       - tag
-  /tags/{uuid}:
+  /tags/{id}:
     get:
       consumes:
       - application/json
       description: details a tag from the database
       parameters:
-      - description: With the bearer started
+      - description: Basic [token]. Token obtained from log in endpoint
         in: header
         name: Authorization
         required: true
         type: string
-      - description: UUID
+      - description: ID of a tag
         in: path
-        name: uuid
+        name: id
         required: true
-        type: string
+        type: integer
       produces:
       - application/json
       responses:

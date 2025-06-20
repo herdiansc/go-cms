@@ -250,7 +250,7 @@ func TestDetailArticleServices_GetDetailByUUID(t *testing.T) {
 		repo     mockArticleDetailer
 	}
 	type args struct {
-		uuid string
+		id int64
 	}
 	tests := []struct {
 		name   string
@@ -265,7 +265,7 @@ func TestDetailArticleServices_GetDetailByUUID(t *testing.T) {
 				repo:     mockSuccessArticleDetailer,
 			},
 			args: args{
-				uuid: "123",
+				id: 1,
 			},
 			want: 200,
 		},
@@ -276,7 +276,7 @@ func TestDetailArticleServices_GetDetailByUUID(t *testing.T) {
 				repo:     mockSuccessArticleDetailer,
 			},
 			args: args{
-				uuid: "123",
+				id: 1,
 			},
 			want: 400,
 		},
@@ -287,7 +287,7 @@ func TestDetailArticleServices_GetDetailByUUID(t *testing.T) {
 				repo:     mockFailedArticleDetailer,
 			},
 			args: args{
-				uuid: "123",
+				id: 1,
 			},
 			want: 404,
 		},
@@ -295,7 +295,7 @@ func TestDetailArticleServices_GetDetailByUUID(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			svc := NewDetailArticleServices(tt.fields.authData, tt.fields.repo)
-			got, _ := svc.GetDetailByUUID(tt.args.uuid)
+			got, _ := svc.GetDetailByUUID(tt.args.id)
 			if got != tt.want {
 				t.Errorf("DetailArticleServices.GetDetailByUUID() got = %v, want %v", got, tt.want)
 			}
@@ -326,7 +326,7 @@ func TestDeleteArticleServices_Delete(t *testing.T) {
 		repo     mockArticleDeleter
 	}
 	type args struct {
-		uuid string
+		id int64
 	}
 	tests := []struct {
 		name   string
@@ -341,7 +341,7 @@ func TestDeleteArticleServices_Delete(t *testing.T) {
 				repo:     mockSuccessArticleDeleter,
 			},
 			args: args{
-				uuid: "123",
+				id: 1,
 			},
 			want: 200,
 		},
@@ -352,7 +352,7 @@ func TestDeleteArticleServices_Delete(t *testing.T) {
 				repo:     mockSuccessArticleDeleter,
 			},
 			args: args{
-				uuid: "123",
+				id: 1,
 			},
 			want: 400,
 		},
@@ -363,7 +363,7 @@ func TestDeleteArticleServices_Delete(t *testing.T) {
 				repo:     mockFailedArticleDeleter,
 			},
 			args: args{
-				uuid: "123",
+				id: 1,
 			},
 			want: 404,
 		},
@@ -371,7 +371,7 @@ func TestDeleteArticleServices_Delete(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			svc := NewDeleteArticleServices(tt.fields.authData, tt.fields.repo)
-			got, _ := svc.Delete(tt.args.uuid)
+			got, _ := svc.Delete(tt.args.id)
 			if got != tt.want {
 				t.Errorf("DeleteArticleServices.Delete() got = %v, want %v", got, tt.want)
 			}
@@ -384,7 +384,7 @@ type mockArticlePatcher struct {
 	e error
 }
 
-func (m mockArticlePatcher) PatchByParam(uuid string, param string, value any) (models.Article, error) {
+func (m mockArticlePatcher) PatchByParam(id int64, param string, value any) (models.Article, error) {
 	return m.d, m.e
 }
 
@@ -408,7 +408,7 @@ func TestPatchArticleServices_Patch(t *testing.T) {
 		historyRepo mockArticleHistoryCreator
 	}
 	type args struct {
-		uuid string
+		id int64
 	}
 	tests := []struct {
 		name   string
@@ -426,7 +426,7 @@ func TestPatchArticleServices_Patch(t *testing.T) {
 				historyRepo: mockSuccessArticleHistoryCreator,
 			},
 			args: args{
-				uuid: "123",
+				id: 1,
 			},
 			want: 200,
 		},
@@ -440,7 +440,7 @@ func TestPatchArticleServices_Patch(t *testing.T) {
 				historyRepo: mockSuccessArticleHistoryCreator,
 			},
 			args: args{
-				uuid: "123",
+				id: 1,
 			},
 			want: 400,
 		},
@@ -454,7 +454,7 @@ func TestPatchArticleServices_Patch(t *testing.T) {
 				historyRepo: mockSuccessArticleHistoryCreator,
 			},
 			args: args{
-				uuid: "123",
+				id: 1,
 			},
 			want: 400,
 		},
@@ -468,7 +468,7 @@ func TestPatchArticleServices_Patch(t *testing.T) {
 				historyRepo: mockSuccessArticleHistoryCreator,
 			},
 			args: args{
-				uuid: "123",
+				id: 1,
 			},
 			want: 400,
 		},
@@ -482,7 +482,7 @@ func TestPatchArticleServices_Patch(t *testing.T) {
 				historyRepo: mockSuccessArticleHistoryCreator,
 			},
 			args: args{
-				uuid: "123",
+				id: 1,
 			},
 			want: 500,
 		},
@@ -496,7 +496,7 @@ func TestPatchArticleServices_Patch(t *testing.T) {
 				tt.fields.repo,
 				tt.fields.historyRepo,
 			)
-			got, _ := svc.Patch(tt.args.uuid)
+			got, _ := svc.Patch(tt.args.id)
 			if got != tt.want {
 				t.Errorf("PatchArticleServices.Patch() got = %v, want %v", got, tt.want)
 			}

@@ -44,8 +44,8 @@ func TestListArticleHistoryServices_List(t *testing.T) {
 		repo        mockArticleHistoryLister
 	}
 	type args struct {
-		articleUuid string
-		q           url.Values
+		articleID int64
+		q         url.Values
 	}
 	tests := []struct {
 		name   string
@@ -61,8 +61,8 @@ func TestListArticleHistoryServices_List(t *testing.T) {
 				repo:        mockSuccessArticleHistoryLister,
 			},
 			args: args{
-				articleUuid: "123",
-				q:           map[string][]string{"a": {"b"}},
+				articleID: 1,
+				q:         map[string][]string{"a": {"b"}},
 			},
 			want: 200,
 		},
@@ -74,8 +74,8 @@ func TestListArticleHistoryServices_List(t *testing.T) {
 				repo:        mockSuccessArticleHistoryLister,
 			},
 			args: args{
-				articleUuid: "123",
-				q:           map[string][]string{"a": {"b"}},
+				articleID: 1,
+				q:         map[string][]string{"a": {"b"}},
 			},
 			want: 400,
 		},
@@ -87,8 +87,8 @@ func TestListArticleHistoryServices_List(t *testing.T) {
 				repo:        mockSuccessArticleHistoryLister,
 			},
 			args: args{
-				articleUuid: "123",
-				q:           map[string][]string{"a": {"b"}},
+				articleID: 1,
+				q:         map[string][]string{"a": {"b"}},
 			},
 			want: 404,
 		},
@@ -100,8 +100,8 @@ func TestListArticleHistoryServices_List(t *testing.T) {
 				repo:        mockEmptyArticleHistoryLister,
 			},
 			args: args{
-				articleUuid: "123",
-				q:           map[string][]string{"a": {"b"}},
+				articleID: 1,
+				q:         map[string][]string{"a": {"b"}},
 			},
 			want: 404,
 		},
@@ -113,7 +113,7 @@ func TestListArticleHistoryServices_List(t *testing.T) {
 				tt.fields.articleRepo,
 				tt.fields.repo,
 			)
-			got, _ := svc.List(tt.args.articleUuid, tt.args.q)
+			got, _ := svc.List(tt.args.articleID, tt.args.q)
 			if got != tt.want {
 				t.Errorf("ListArticleHistoryServices.List() got = %v, want %v", got, tt.want)
 			}
@@ -147,7 +147,7 @@ func TestDetailArticleHistoryServices_GetDetailByUUID(t *testing.T) {
 		repo     mockArticleHistoryDetailer
 	}
 	type args struct {
-		uuid string
+		id int64
 	}
 	tests := []struct {
 		name   string
@@ -162,7 +162,7 @@ func TestDetailArticleHistoryServices_GetDetailByUUID(t *testing.T) {
 				repo:     mockSuccessArticleHistoryDetailer,
 			},
 			args: args{
-				uuid: "123",
+				id: 1,
 			},
 			want: 200,
 		},
@@ -173,7 +173,7 @@ func TestDetailArticleHistoryServices_GetDetailByUUID(t *testing.T) {
 				repo:     mockSuccessArticleHistoryDetailer,
 			},
 			args: args{
-				uuid: "123",
+				id: 1,
 			},
 			want: 400,
 		},
@@ -184,7 +184,7 @@ func TestDetailArticleHistoryServices_GetDetailByUUID(t *testing.T) {
 				repo:     mockFailedArticleHistoryDetailer,
 			},
 			args: args{
-				uuid: "123",
+				id: 1,
 			},
 			want: 404,
 		},
@@ -192,7 +192,7 @@ func TestDetailArticleHistoryServices_GetDetailByUUID(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			svc := NewDetailArticleHistoryServices(tt.fields.authData, tt.fields.repo)
-			got, _ := svc.GetDetailByUUID(tt.args.uuid)
+			got, _ := svc.GetDetailByUUID(tt.args.id)
 			if got != tt.want {
 				t.Errorf("DetailArticleHistoryServices.GetDetailByUUID() got = %v, want %v", got, tt.want)
 			}

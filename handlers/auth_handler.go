@@ -33,7 +33,7 @@ func NewAuthHandler(db *gorm.DB) AuthHandler {
 //	@x-order		1
 //	@Accept			json
 //	@Produce		json
-//	@Param			request	body		models.RegisterRequest	true	"Request of Creating Order Object"
+//	@Param			request	body		models.RegisterRequest	true	"Request body of registration"
 //	@Success		200		{object}	models.Response			"ok"
 //	@Failure		400		{object}	models.Response			"bad request"
 //	@Failure		500		{object}	models.Response			"internal server error"
@@ -58,7 +58,7 @@ func (h AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 //	@Tags			auth
 //	@Accept			json
 //	@Produce		json
-//	@Param			request	body		models.LoginRequest	true	"Request of Creating Order Object"
+//	@Param			request	body		models.LoginRequest	true	"Request of login"
 //	@Success		200		{object}	models.Response		"ok"
 //	@Failure		400		{object}	models.Response		"bad request"
 //	@Failure		500		{object}	models.Response		"internal server error"
@@ -84,7 +84,7 @@ func (h AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 //	@Tags			auth
 //	@Accept			json
 //	@Produce		json
-//	@Param			Authorization	header		string			true	"With the bearer started"
+//	@Param			Authorization	header		string			true	"Basic [token]. Token obtained from log in endpoint"
 //	@Success		200				{object}	models.Response	"ok"
 //	@Failure		400				{object}	models.Response	"bad request"
 //	@Failure		500				{object}	models.Response	"internal server error"
@@ -97,18 +97,3 @@ func (h AuthHandler) GetProfile(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(code)
 	json.NewEncoder(w).Encode(res)
 }
-
-// // Verify verifies jwt
-// // @Summary		Add a new auth to database
-// // @Description	Add a new auth to database
-// // @Accept		json
-// // @Produce		json
-// // @Param Authorization header string true "With the bearer started"
-// // @Success		200		{string}	string			"ok"
-// // @Router		/auth/verify [post]
-// func (h AuthHandler) Verify(w http.ResponseWriter, r *http.Request) {
-// 	svc := services.NewTokenVerifyServices()
-// 	code, res := svc.Verify(r.Header.Get("Authorization"))
-// 	w.WriteHeader(code)
-// 	json.NewEncoder(w).Encode(res)
-// }

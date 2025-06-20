@@ -121,7 +121,6 @@ var (
 		d: []models.TagListItem{
 			{
 				ID:         1,
-				UUID:       "a",
 				Title:      "b",
 				UsageCount: 1,
 			},
@@ -226,7 +225,7 @@ func TestDetailTagServices_GetDetailByUUID(t *testing.T) {
 		repo     mockTagDetailer
 	}
 	type args struct {
-		uuid string
+		id int64
 	}
 	tests := []struct {
 		name   string
@@ -256,7 +255,7 @@ func TestDetailTagServices_GetDetailByUUID(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			svc := NewDetailTagServices(tt.fields.authData, tt.fields.repo)
-			got, _ := svc.GetDetailByUUID(tt.args.uuid)
+			got, _ := svc.GetDetailByUUID(tt.args.id)
 			if got != tt.want {
 				t.Errorf("DetailTagServices.GetDetailByUUID() got = %v, want %v", got, tt.want)
 			}

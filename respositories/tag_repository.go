@@ -52,10 +52,10 @@ func (repo TagRepository) List(params map[string]interface{}) ([]models.TagListI
 	var data []models.TagListItem
 	result := repo.db.Debug().
 		Model(&models.Tag{}).
-		Select("tags.id, tags.uuid, tags.title, count(at.*) as usage_count").
+		Select("tags.id, tags.title, count(at.*) as usage_count").
 		Joins("left join article_tags at on at.tag_id = tags.id").
 		Where(params).
-		Group("tags.id, tags.uuid, tags.title").
+		Group("tags.id, tags.title").
 		Order(fmt.Sprintf("%s %s", orderField, orderDir)).
 		Limit(limit).
 		Offset(limit * (page - 1)).

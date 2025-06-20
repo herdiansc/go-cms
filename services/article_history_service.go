@@ -30,14 +30,14 @@ func NewListArticleHistoryServices(ad any, ar ArticleDetailer, al ArticleHistory
 }
 
 // List performs action of listing article histories
-func (svc ListArticleHistoryServices) List(articleUuid string, q url.Values) (int, models.Response) {
+func (svc ListArticleHistoryServices) List(articleID int64, q url.Values) (int, models.Response) {
 	_, ok := svc.authData.(models.VerifyData)
 	if !ok {
 		log.Printf("Failed to read authData\n")
 		return http.StatusBadRequest, models.Response{Message: "error", Data: nil}
 	}
 
-	article, err := svc.articleRepo.FindByParam("uuid", articleUuid)
+	article, err := svc.articleRepo.FindByParam("id", articleID)
 	if err != nil {
 		log.Printf("Failed to get data: %+v\n", err.Error())
 		return http.StatusNotFound, models.Response{Message: "not found", Data: err.Error()}
@@ -77,15 +77,15 @@ func NewDetailArticleHistoryServices(ad any, al ArticleHistoryDetailer) DetailAr
 	}
 }
 
-// GetDetailByUUID gets detail of an article history by uuid
-func (svc DetailArticleHistoryServices) GetDetailByUUID(uuid string) (int, models.Response) {
+// GetDetailByUUID gets detail of an article history by id
+func (svc DetailArticleHistoryServices) GetDetailByUUID(id int64) (int, models.Response) {
 	_, ok := svc.authData.(models.VerifyData)
 	if !ok {
 		log.Printf("Failed to read authData\n")
 		return http.StatusBadRequest, models.Response{Message: "error", Data: nil}
 	}
 
-	data, err := svc.repo.FindByParam("uuid", uuid)
+	data, err := svc.repo.FindByParam("id", id)
 	if err != nil {
 		log.Printf("Failed to get data: %+v\n", err.Error())
 		return http.StatusNotFound, models.Response{Message: "not found", Data: err.Error()}

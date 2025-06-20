@@ -121,8 +121,13 @@ func NewDetailTagServices(ad any, al TagDetailer) DetailTagServices {
 }
 
 // GetDetailByUUID gets detail of a tag by uuid
-func (svc DetailTagServices) GetDetailByUUID(uuid string) (int, models.Response) {
-	data, err := svc.repo.FindByParam("uuid", uuid)
+func (svc DetailTagServices) GetDetailByUUID(id int64) (int, models.Response) {
+	_, ok := svc.authData.(models.VerifyData)
+	if !ok {
+		log.Printf("Failed to read authData\n")
+		return http.StatusBadRequest, models.Response{Message: "error", Data: nil}
+	}
+	data, err := svc.repo.FindByParam("id", id)
 	if err != nil {
 		log.Printf("Failed to get data: %+v\n", err.Error())
 		return http.StatusNotFound, models.Response{Message: "not found", Data: err.Error()}

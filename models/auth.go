@@ -18,7 +18,6 @@ type ProfileResponse struct {
 func (a Auth) ProfileResponse() ProfileResponse {
 	return ProfileResponse{
 		PublicBase: PublicBase{
-			UUID:      a.UUID,
 			CreatedAt: a.CreatedAt,
 			UpdatedAt: a.UpdatedAt,
 			DeletedAt: a.DeletedAt,

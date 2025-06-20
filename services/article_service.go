@@ -129,15 +129,15 @@ func NewDetailArticleServices(ad any, al ArticleDetailer) DetailArticleServices 
 	}
 }
 
-// DetailArticleServices gets detail of an article by uuid
-func (svc DetailArticleServices) GetDetailByUUID(uuid string) (int, models.Response) {
+// DetailArticleServices gets detail of an article by id
+func (svc DetailArticleServices) GetDetailByUUID(id int64) (int, models.Response) {
 	_, ok := svc.authData.(models.VerifyData)
 	if !ok {
 		log.Printf("Failed to read authData\n")
 		return http.StatusBadRequest, models.Response{Message: "error", Data: nil}
 	}
 
-	data, err := svc.repo.FindByParam("uuid", uuid)
+	data, err := svc.repo.FindByParam("id", id)
 	if err != nil {
 		log.Printf("Failed to get data: %+v\n", err.Error())
 		return http.StatusNotFound, models.Response{Message: "not found", Data: err.Error()}
@@ -165,15 +165,15 @@ func NewDeleteArticleServices(ad any, ade ArticleDeleter) DeleteArticleServices 
 	}
 }
 
-// Delete gets detail of an article by uuid
-func (svc DeleteArticleServices) Delete(uuid string) (int, models.Response) {
+// Delete gets detail of an article by id
+func (svc DeleteArticleServices) Delete(id int64) (int, models.Response) {
 	_, ok := svc.authData.(models.VerifyData)
 	if !ok {
 		log.Printf("Failed to read authData\n")
 		return http.StatusBadRequest, models.Response{Message: "error", Data: nil}
 	}
 
-	err := svc.repo.DeleteByParam("uuid", uuid)
+	err := svc.repo.DeleteByParam("id", id)
 	if err != nil {
 		log.Printf("Failed to delete data: %+v\n", err.Error())
 		return http.StatusNotFound, models.Response{Message: "Failed to delete article", Data: err.Error()}
@@ -184,7 +184,7 @@ func (svc DeleteArticleServices) Delete(uuid string) (int, models.Response) {
 
 // ArticlePatcher defines article patcher function
 type ArticlePatcher interface {
-	PatchByParam(uuid string, param string, value any) (models.Article, error)
+	PatchByParam(id int64, param string, value any) (models.Article, error)
 }
 
 // PatchArticleServices defines patch article service struct
@@ -208,7 +208,7 @@ func NewPatchArticleServices(ad any, jd JsonDecoder, rv RequestValidator, ac Art
 }
 
 // Patch performs action of patching an article
-func (svc PatchArticleServices) Patch(uuid string) (int, models.Response) {
+func (svc PatchArticleServices) Patch(id int64) (int, models.Response) {
 	_, ok := svc.authData.(models.VerifyData)
 	if !ok {
 		log.Printf("Failed to read authData\n")
@@ -228,7 +228,7 @@ func (svc PatchArticleServices) Patch(uuid string) (int, models.Response) {
 		return http.StatusBadRequest, models.Response{Message: "Bad Request", Data: err.Error()}
 	}
 
-	article, err := svc.repo.PatchByParam(uuid, "status", data.Status)
+	article, err := svc.repo.PatchByParam(id, "status", data.Status)
 	if err != nil {
 		log.Printf("Failed to save data: %+v\n", err.Error())
 		return http.StatusInternalServerError, models.Response{Message: "Failed to save data", Data: err.Error()}
