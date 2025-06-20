@@ -1,19 +1,25 @@
-# Article CMS Built Using Golang
+# Article CMS
 
-This repository contains a cms service 
+This repository contains a cms service built using golang
 
-## How To Run
+## Installation Using Docker Compose
 
 After cloning this repository, please create a .env file and copy-paste the content from .env.example file
 
-And then, best way to run the repositories is by using the docker compose:
+And then, execute this command at the project root directory:
 
 ```bash
-docker compose build
-docker compose up
+docker compose up -d
 ```
 
 ## Features
 
-- All endpoints can be tried by accessing the swagger docs: http://localhost:9000/swagger/index.html
+- Swagger provided: All endpoints can be tried by accessing the swagger docs: http://localhost:9000/swagger/index.html
 - Unit Test: each services has average of more than 90% coverage 
+- Authentication using JWT
+- Dockerized
+- Integration testing 
+
+## DB Schema
+Here is the db schema used in this service:
+![ERD CMS](erd-cms.png)
