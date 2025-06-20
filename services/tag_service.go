@@ -13,11 +13,6 @@ type TagCreator interface {
 	Create(data models.Tag) (models.Tag, error)
 }
 
-// // ArticleHistoryCreator defines article history creator function
-// type ArticleHistoryCreator interface {
-// 	Create(action string, data models.Article) error
-// }
-
 // CreateTagServices defines tag create service struct
 type CreateTagServices struct {
 	authData  any

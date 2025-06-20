@@ -11,7 +11,6 @@ import (
 // ArticleProcessor defines article creator function
 type ArticleProcessor interface {
 	Create(writerID int64, data models.CreateArticleRequest) (models.Article, error)
-	FindByParam(param string, value any) (models.Article, error)
 }
 
 // ArticleHistoryCreator defines article history creator function
@@ -132,6 +131,12 @@ func NewDetailArticleServices(ad any, al ArticleDetailer) DetailArticleServices 
 
 // DetailArticleServices gets detail of an article by uuid
 func (svc DetailArticleServices) GetDetailByUUID(uuid string) (int, models.Response) {
+	_, ok := svc.authData.(models.VerifyData)
+	if !ok {
+		log.Printf("Failed to read authData\n")
+		return http.StatusBadRequest, models.Response{Message: "error", Data: nil}
+	}
+
 	data, err := svc.repo.FindByParam("uuid", uuid)
 	if err != nil {
 		log.Printf("Failed to get data: %+v\n", err.Error())
@@ -162,6 +167,12 @@ func NewDeleteArticleServices(ad any, ade ArticleDeleter) DeleteArticleServices 
 
 // Delete gets detail of an article by uuid
 func (svc DeleteArticleServices) Delete(uuid string) (int, models.Response) {
+	_, ok := svc.authData.(models.VerifyData)
+	if !ok {
+		log.Printf("Failed to read authData\n")
+		return http.StatusBadRequest, models.Response{Message: "error", Data: nil}
+	}
+
 	err := svc.repo.DeleteByParam("uuid", uuid)
 	if err != nil {
 		log.Printf("Failed to delete data: %+v\n", err.Error())

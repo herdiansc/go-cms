@@ -74,6 +74,7 @@ func main() {
 	DB.AutoMigrate(&models.Article{})
 	DB.AutoMigrate(&models.ArticleTag{})
 	DB.AutoMigrate(&models.Tag{})
+	DB.AutoMigrate(&models.TagTrendingScore{})
 	DB.AutoMigrate(&models.ArticleHistory{})
 
 	httpServer := http.NewServeMux()

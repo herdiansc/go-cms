@@ -5,11 +5,12 @@ import "github.com/gosimple/slug"
 // Article struct
 type Article struct {
 	Base
-	Title    string `gorm:"not null"`
-	Content  string `gorm:"not null"`
-	Status   string `gorm:"not null"`
-	WriterID int64  `gorm:"not null"`
-	Slug     string `gorm:"not null"`
+	Title                string `gorm:"not null"`
+	Content              string `gorm:"not null"`
+	Status               string `gorm:"not null"`
+	WriterID             int64  `gorm:"not null"`
+	Slug                 string `gorm:"not null"`
+	TagRelationshipScore int64
 }
 
 // CreateArticleRequest struct

@@ -79,6 +79,12 @@ func NewDetailArticleHistoryServices(ad any, al ArticleHistoryDetailer) DetailAr
 
 // GetDetailByUUID gets detail of an article history by uuid
 func (svc DetailArticleHistoryServices) GetDetailByUUID(uuid string) (int, models.Response) {
+	_, ok := svc.authData.(models.VerifyData)
+	if !ok {
+		log.Printf("Failed to read authData\n")
+		return http.StatusBadRequest, models.Response{Message: "error", Data: nil}
+	}
+
 	data, err := svc.repo.FindByParam("uuid", uuid)
 	if err != nil {
 		log.Printf("Failed to get data: %+v\n", err.Error())
